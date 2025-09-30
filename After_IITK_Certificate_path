@@ -63,7 +63,7 @@ kubectl apply -f disallow-hostpath-constraint.yaml
 
 Keep this checklist as a single-page quick reference during labs.
 
-=====================================
+=========================================================================================
 
 # KCSA 8-Week Practical Study Plan
 
@@ -141,5 +141,49 @@ Keep this checklist as a single-page quick reference during labs.
 - Keep small YAML snippets in a repo and version control your lab.
 - Record short screencasts when you fix an issue — good portfolio evidence.
 
-=========================================
+==================================================================================================
+
+# 12-Month Roadmap — Cloud Security & Malware Analyst Tracks (Hybrid)
+
+**Objective:** Provide two parallel tracks (Cloud/Kubernetes Security & Offensive/Malware) so you can blend skills.
+
+## Months 0–2: KCSA completion (hands-on)
+- Finish the 8-week plan and pass the exam.
+- Deliverable: K8s hardening report + GitHub repo with manifests.
+
+## Months 3–5: Foundation split (pick parallel learning)
+- Cloud Fundamentals:
+  - AWS Free Tier labs (IAM, S3, EC2, VPC, CloudTrail).
+  - Complete Solutions Architect Associate or Cloud Practitioner.
+- Offense Fundamentals:
+  - Basic pentest labs (TryHackMe / Hack The Box beginner paths).
+  - Learn Kali toolset, `nmap`, `burpsuite`, `sqlmap`.
+
+## Months 6–9: Specialize
+- Cloud/K8s Path:
+  - CKS (or CKA+CKS). Implement OPA/Gatekeeper, Falco, Trivy, image signing.
+  - Start AWS Security – Specialty prep (or AZ-500 if Azure).
+- Offensive/Malware Path:
+  - OSCP study & labs (buffer overflows, web, pivoting).
+  - Begin reversing basics: Ghidra, x64dbg, static/dynamic triage.
+
+## Months 10–12: Advanced & Portfolio
+- Cloud Path:
+  - Advanced detection: SIEM hunting (Elastic/Splunk Sigma rules), cloud forensics basics.
+  - Build a cloud-native incident playbook.
+- Malware Path:
+  - Deep reversing: Practical Malware Analysis exercises, REMnux labs.
+  - Create 3 malware analysis reports and YARA rules.
+
+## Ongoing (throughout 12 months)
+- Weekly: 5–10 hours of hands-on labs + 1 writeup per 2 weeks.
+- Monthly: Publish 1 blog post / GitHub writeup.
+- Quarterly: Take one certification exam or milestone (e.g., KCSA, then CKS or eCPPT/OSCP).
+
+## Deliverables after 12 months
+- Kubernetes security repo (manifests, policies, scanners).
+- Pentest & malware writeups (one full OSCP-style report + two malware analyses).
+- Two certs achieved (e.g., KCSA + OSCP or KCSA + CKS + AWS Security depending on chosen path).
+
+
 
