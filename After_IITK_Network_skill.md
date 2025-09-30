@@ -5,6 +5,12 @@
 **Study cadence:** 8–12 hours/week (recommended). Each week includes: Topics, Objectives, Hands-on Lab, Commands / Exercises, Deliverable.
 
 ---
+```
+Blue-team / Network analyst → IDS/IPS, Zeek/Suricata, SIEM, network forensics, threat hunting, cloud networking monitoring.
+
+Red-team / Pentest → advanced scanning, exploit delivery over network, pivoting, ARP/DNS spoofing, tunneling, wireless attacks.
+Learn routers, switches, firewalls, gateways, NAT, VLANs, ACLs, routing protocols — yes, you need them. Start with fundamentals (Cisco-style concepts) first, then add cloud networking (AWS/Azure/GCP) after you can comfortably subnet, route, and capture packets.
+```
 
 ## Week 1 — Foundations: OSI / TCP-IP & Basic Tools
 **Topics**
