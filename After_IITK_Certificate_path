@@ -1,0 +1,64 @@
+# 1-Page Kubernetes Security Lab Checklist (Commands & Tools)
+
+## Environment
+- Install:
+  - `kind` or `k3d` or `minikube`
+  - `kubectl`
+  - `trivy`, `kube-bench`, `kube-hunter`, `gatekeeper`, `falco`
+
+## Quick cluster setup (kind)
+```bash
+kind create cluster --name kcsa-lab
+kubectl cluster-info --context kind-kcsa-lab
+kubectl create namespace dev
+```
+
+## RBAC test
+```bash
+kubectl create serviceaccount sa-dev -n dev
+kubectl create role pod-reader --verb=get,list --resource=pods -n dev
+kubectl create rolebinding rb-dev --role=pod-reader --serviceaccount=dev:sa-dev -n dev
+kubectl auth can-i create pods --as=system:serviceaccount:dev:sa-dev -n dev
+```
+
+## NetworkPolicy test (example)
+- Apply `networkpolicy.yaml` to deny all ingress then allow from namespace `frontend`.
+```bash
+kubectl apply -f networkpolicy.yaml -n backend
+```
+
+## Image scanning
+```bash
+trivy image nginx:latest
+trivy image --severity HIGH,CRITICAL myregistry/myimage:tag
+```
+
+## Hardening checks
+```bash
+# kube-bench
+kube-bench
+# kube-hunter
+kube-hunter --remote
+```
+
+## Admission & policy
+```bash
+# Install Gatekeeper
+kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml
+# Test a constraint template + constraint
+kubectl apply -f disallow-hostpath-template.yaml
+kubectl apply -f disallow-hostpath-constraint.yaml
+```
+
+## Audit & Logging (local)
+- Enable audit in kind via extraConfig (or simulate by logging audit events).
+- Inspect `kubectl get events -A` and `kubectl logs` of kube-system controllers.
+
+## Useful utilities
+- `kubectl explain <resource>` — read resource schema.
+- `kubectl auth can-i ... --as=system:serviceaccount:...` — test RBAC.
+- `stern` or `kubetail` — tail multiple pod logs conveniently.
+
+---
+
+Keep this checklist as a single-page quick reference during labs.
