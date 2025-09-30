@@ -62,3 +62,84 @@ kubectl apply -f disallow-hostpath-constraint.yaml
 ---
 
 Keep this checklist as a single-page quick reference during labs.
+
+=====================================
+
+# KCSA 8-Week Practical Study Plan
+
+**Goal:** Pass KCSA and gain hands-on Kubernetes security fundamentals.
+
+## Week 1 — Foundations & Exam Map
+- Read: KCSA exam guide + Kubernetes basics (Pods, Services, Namespaces).
+- Labs:
+  - Install `kind` or `k3d` and `kubectl`.
+  - Deploy `nginx` sample app.
+- Commands:
+  - `kind create cluster --name kcsa1`
+  - `kubectl create deployment nginx --image=nginx`
+  - `kubectl get pods -A`
+
+## Week 2 — RBAC & ServiceAccounts
+- Learn: Roles, RoleBindings, ClusterRoles, ClusterRoleBindings, ServiceAccounts.
+- Labs:
+  - Create a namespace `dev` and a Role allowing `get,list` pods.
+  - Bind it to a ServiceAccount and test with `kubectl auth can-i`.
+- Commands:
+  - `kubectl create namespace dev`
+  - `kubectl create serviceaccount sa-dev -n dev`
+  - `kubectl create role pod-reader --verb=get,list --resource=pods -n dev`
+  - `kubectl create rolebinding rb-dev --role=pod-reader --serviceaccount=dev:sa-dev -n dev`
+  - `kubectl auth can-i get pods --as=system:serviceaccount:dev:sa-dev -n dev`
+
+## Week 3 — Pod Security & SecurityContext
+- Learn: SecurityContext, runAsUser, readOnlyRootFilesystem, privileged=false.
+- Labs:
+  - Deploy a pod with `securityContext` restrictions; attempt to run a privileged container.
+- Commands:
+  - Example manifest snippet to test.
+
+## Week 4 — NetworkPolicy & Pod-to-Pod Controls
+- Learn: CNI basics, NetworkPolicy semantics (ingress/egress).
+- Labs:
+  - Create two namespaces (frontend/backend) and restrict traffic using NetworkPolicy.
+- Commands:
+  - `kubectl apply -f networkpolicy.yaml`
+  - `kubectl exec -n frontend <pod> -- curl http://backend-service:80`
+
+## Week 5 — Image Security & Supply Chain Basics
+- Learn: Image signing, vulnerability scanning, registries.
+- Tools: `trivy`, `clair`, `notary`
+- Labs:
+  - Scan images: `trivy image nginx:latest`
+  - Run a private registry or use Docker Hub and test pull policies.
+
+## Week 6 — Audit Logging & Admission Controllers
+- Learn: Audit policy, Admission (OPA/Gatekeeper), PodSecurity admission.
+- Labs:
+  - Enable audit logs on Kind cluster (use kube-apiserver flags or simulate).
+  - Install Gatekeeper and deploy a simple constraint (e.g., disallow hostPath).
+- Commands:
+  - `kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`
+
+## Week 7 — Hardening & Scanning Tools
+- Tools: `kube-bench`, `kube-hunter`, `kubeaudit`, Falco
+- Labs:
+  - Run `kube-bench` and remediate 2 findings.
+  - Run `kube-hunter` in active mode against cluster (lab only).
+- Commands:
+  - `kube-bench --version 1.4.0 --config-dir /path/to/config`
+
+## Week 8 — Review & Mock Exam
+- Review exam objectives and re-run labs where you had issues.
+- Take practice tests and time-boxed lab walkthroughs.
+- Deliverable: Write a 1‑page "Security Hardening Report" for your lab cluster summarizing 5 mitigations you applied.
+
+---
+
+**Tips**
+- Use `kubectl --kubeconfig=...` for multi-cluster practice.
+- Keep small YAML snippets in a repo and version control your lab.
+- Record short screencasts when you fix an issue — good portfolio evidence.
+
+=========================================
+
