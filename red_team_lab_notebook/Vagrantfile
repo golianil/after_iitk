@@ -1,0 +1,53 @@
+# Vagrantfile — simple 3-VM lab (Kali, Samba AD, Victim)
+# NOTE: This is a lightweight lab for testing and learning. It avoids Windows images to keep licensing simple.
+Vagrant.configure("2") do |config|
+  # Base boxes (public)
+  config.vm.box_check_update = false
+
+  config.vm.define "kali" do |kali|
+    kali.vm.box = "kalilinux/kali-rolling"
+    kali.vm.hostname = "kali.lab"
+    kali.vm.network "private_network", ip: "192.168.56.10"
+    kali.vm.provider "virtualbox" do |vb|
+      vb.memory = 4096
+      vb.cpus = 2
+    end
+    kali.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get update -y
+      sudo apt-get install -y git nmap nikto gobuster dnsutils curl jq
+    SHELL
+  end
+
+  config.vm.define "ubuntu-dc" do |dc|
+    dc.vm.box = "ubuntu/focal64"
+    dc.vm.hostname = "dc.lab"
+    dc.vm.network "private_network", ip: "192.168.56.11"
+    dc.vm.provider "virtualbox" do |vb|
+      vb.memory = 4096
+      vb.cpus = 2
+    end
+    dc.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get update -y
+      # Install Samba AD DC (lightweight for lab)
+      sudo apt-get install -y samba krb5-user krb5-config winbind
+      # NOTE: Manual Samba AD provisioning steps in labs/ for safety and clarity
+    SHELL
+  end
+
+  config.vm.define "ubuntu-victim" do |v|
+    v.vm.box = "ubuntu/focal64"
+    v.vm.hostname = "victim.lab"
+    v.vm.network "private_network", ip: "192.168.56.12"
+    v.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 1
+    end
+    v.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get update -y
+      sudo apt-get install -y apache2 python3-pip
+      sudo systemctl enable apache2 --now
+      # Create a simple web page
+      echo "<html><body><h1>Victim Web</h1></body></html>" | sudo tee /var/www/html/index.html
+    SHELL
+  end
+end
