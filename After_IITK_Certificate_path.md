@@ -141,7 +141,7 @@ Keep this checklist as a single-page quick reference during labs.
 - Keep small YAML snippets in a repo and version control your lab.
 - Record short screencasts when you fix an issue — good portfolio evidence.
 
-==================================================================================================
+====================================================================================
 
 # 12-Month Roadmap — Cloud Security & Malware Analyst Tracks (Hybrid)
 
